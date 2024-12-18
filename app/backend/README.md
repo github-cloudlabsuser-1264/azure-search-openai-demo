@@ -53,6 +53,6 @@ Configuration settings for the backend can be found in the `config.py` file. Ens
 
 To deploy the backend to Azure, follow the instructions in the main README.md file.
 
-## License
+## License ff
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
