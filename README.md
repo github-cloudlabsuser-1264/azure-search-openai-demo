@@ -8,7 +8,7 @@ languages:
 - bicep
 - azdeveloper
 products:
-- azure-openai
+- azure-openai new
 - azure-cognitive-search
 - azure-app-service
 - azure
