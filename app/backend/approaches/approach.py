@@ -27,6 +27,11 @@ from openai.types.chat import ChatCompletionMessageParam
 from core.authentication import AuthenticationHelper
 from text import nonewlines
 
+# Import necessary libraries
+import requests
+from azure.ai.search import SearchClient
+from azure.openai import OpenAIClient
+
 
 @dataclass
 class Document:
@@ -283,3 +288,41 @@ class Approach(ABC):
         context: dict[str, Any] = {},
     ) -> AsyncGenerator[dict[str, Any], None]:
         raise NotImplementedError
+
+    def retrieve_documents(self, query: str):
+        """
+        Retrieve documents from Azure AI Search based on the query.
+
+        :param query: The search query string
+        :return: List of retrieved documents
+        """
+        # Perform search using the search client
+        results = self.search_client.search(query)
+        documents = [doc for doc in results]
+        return documents
+
+    def generate_response(self, documents: list):
+        """
+        Generate a response using Azure OpenAI based on the retrieved documents.
+
+        :param documents: List of documents retrieved from search
+        :return: Generated response string
+        """
+        # Combine documents into a single prompt
+        prompt = " ".join([doc['content'] for doc in documents])
+        # Generate response using the OpenAI client
+        response = self.openai_client.generate(prompt)
+        return response
+
+    def handle_query(self, query: str):
+        """
+        Handle the user query by retrieving documents and generating a response.
+
+        :param query: The user query string
+        :return: Generated response string
+        """
+        # Retrieve documents based on the query
+        documents = self.retrieve_documents(query)
+        # Generate a response based on the retrieved documents
+        response = self.generate_response(documents)
+        return response
