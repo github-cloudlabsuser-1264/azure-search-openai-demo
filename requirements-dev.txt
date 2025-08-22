@@ -13,3 +13,6 @@ pre-commit
 locust
 pip-tools
 mypy==1.13.0
+Pillow>=10.0.0
+opencv-python>=4.10.0.84
+numpy>=1.26.0
